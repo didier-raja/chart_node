@@ -1,0 +1,87 @@
+  * {
+            font-family: 'poppins', sans-serif;
+            color: white;
+            box-sizing: border-box;
+        }
+        body {
+            background: black;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgb(26, 25, 25);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 6px;
+            padding: 2rem;
+            
+        }
+        h2 { border-bottom: 1px solid #333; padding-bottom: 10px; }
+        input {
+            width: 100%;
+            height: 40px;
+            background: rgb(62, 61, 61);
+            border: none;
+            color: white;
+            font-size: 14px;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+        /* Style for File Input */
+        input[type="file"] {
+            background: transparent;
+            padding: 5px 0;
+        }
+        button {
+            color: white;
+            background: rgb(34, 78, 199);
+            border: none;
+            width: 100%;
+            height: 45px;
+            border-radius: 4px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover { background: rgb(53, 101, 235); 
+        }
+        ul { list-style: none;
+             padding: 0;
+              margin-top: 20px;
+             }
+        li { 
+            background: #222;
+            margin: 10px 0;
+            padding: 15px; 
+            border-radius: 4px; 
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        li:hover{
+            background: #343434;
+        }
+        .emp-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgb(34, 78, 199);
+            background: #444;
+            filter: brightness(1.05) contrast(1.1) saturate(1.2);
+        }
+        .info { flex-grow: 1;
+         }
+         u{
+              color: rgb(10, 255, 133);
+              font-size: 15px;
+              text-decoration: none;
+         }
+         b{
+            margin-left: 20vh;
+            font-family: 'poppins',sans-serif;
+            font-size: 15px;
+          
+         }

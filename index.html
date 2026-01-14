@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Add Employee</h2>
+    <input type="text" id="fname" placeholder="First Name">
+    <input type="text" id="lname" placeholder="Last Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="dept" placeholder="Department">
+    <label style="font-size: 12px; color: #aaa;">Profile Picture:</label>
+    <input type="file" id="imageInput" accept="image/*">
+    
+    <button onclick="addEmployee()">Add Employee</button>
+
+    <h2>Employee List</h2>
+    <ul id="employeeList"></ul>
+    <h3>End of employee list </h3>
+</div>
+
+<script>
+    const API_URL = "http://localhost:3000/employees";
+
+    // FETCH data from Backend
+    async function fetchEmployees() {
+        try {
+            const res = await fetch(API_URL);
+            const data = await res.json();
+            const list = document.getElementById('employeeList');
+            list.innerHTML = ""; 
+
+            data.forEach(emp => {
+                // If the employee has an image, show it. Otherwise, show a placeholder.
+                const imageSrc = emp.image_path ? `http://localhost:3000/${emp.image_path}` : 'https://via.placeholder.com/50';
+                list.innerHTML += `
+                    <li>
+                        <img src="${imageSrc}" class="emp-img" alt="profile">
+                        <div class="info">${emp.id}.
+                            <strong>${emp.First_name} ${emp.last_name}</strong><br>
+                            <small> <u> ${emp.email} </u>  <b>${emp.department}</b> </small>
+                        </div>
+                    </li>`;
+            });
+        } catch (err) {
+            console.error("Error fetching data:", err);
+        }
+    }
+
+    // SEND data to Backend using FormData
+    async function addEmployee() {
+        const fname = document.getElementById('fname').value;
+        const lname = document.getElementById('lname').value;
+        const email = document.getElementById('email').value;
+        const dept = document.getElementById('dept').value;
+        const imageFile = document.getElementById('imageInput').files[0];
+
+        // Validation
+        if (!fname || !lname || !email) {
+            alert("Please fill in required fields");
+            return;
+        }
+
+        // Use FormData for image uploads
+        const formData = new FormData();
+        formData.append('First_name', fname);
+        formData.append('last_name', lname);
+        formData.append('email', email);
+        formData.append('department', dept);
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                // Do NOT set "Content-Type" header when using FormData. 
+                // The browser will set it to "multipart/form-data" automatically.
+                body: formData 
+            });
+
+            if (response.ok) {
+                // Clear fields
+                document.getElementById('fname').value = "";
+                document.getElementById('lname').value = "";
+                document.getElementById('email').value = "";
+                document.getElementById('dept').value = "";
+                document.getElementById('imageInput').value = "";
+                
+                fetchEmployees(); // Refresh list
+            }
+        } catch (err) {
+            console.error("Upload failed:", err);
+        }
+    }
+
+    // Load list on start
+    fetchEmployees();
+</script>
+
+</body>
+</html>
